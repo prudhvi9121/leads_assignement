@@ -4,6 +4,7 @@ const { aiScore } = require("../services/aiscoring");
 const offerRoute = require("../routes/offer");
 const leadsRoute = require("../routes/leads");
 
+// Build the simplified results array used by both JSON and CSV endpoints
 async function getResults(req, res) {
   const offer = offerRoute.currentOffer();
   const leads = leadsRoute._getLeads();
@@ -19,11 +20,11 @@ async function getResults(req, res) {
 
     let intent = (typeof aScore === 'object' && aScore?.intent) ? aScore.intent : 'Medium';
     let reasoning = (typeof aScore === 'object' && aScore?.reasoning) ? String(aScore.reasoning) : '';
-    // Strip code fences if present
+    // Remove code fences; some LLMs return fenced JSON
     if (reasoning.startsWith('```')) {
-      reasoning = reasoning.replace(/^```[a-zA-Z]*\n?/,'').replace(/```$/,'').trim();
+      reasoning = reasoning.replace(/^```[a-zA-Z]*\n?/, '').replace(/```$/, '').trim();
     }
-    // Try to parse JSON reasoning payloads
+    // If LLM returned JSON, extract fields
     try {
       const parsed = JSON.parse(reasoning);
       if (parsed && typeof parsed === 'object') {
@@ -45,6 +46,7 @@ async function getResults(req, res) {
   res.json(results);
 }
 
+// CSV export with same columns as JSON
 async function getResultsCsv(req, res) {
   const offer = offerRoute.currentOffer();
   const leads = leadsRoute._getLeads();
@@ -61,7 +63,7 @@ async function getResultsCsv(req, res) {
     let intent = (typeof aScore === 'object' && aScore?.intent) ? aScore.intent : 'Medium';
     let reasoning = (typeof aScore === 'object' && aScore?.reasoning) ? String(aScore.reasoning) : '';
     if (reasoning.startsWith('```')) {
-      reasoning = reasoning.replace(/^```[a-zA-Z]*\n?/,'').replace(/```$/,'').trim();
+      reasoning = reasoning.replace(/^```[a-zA-Z]*\n?/, '').replace(/```$/, '').trim();
     }
     try {
       const parsed = JSON.parse(reasoning);

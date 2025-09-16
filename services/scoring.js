@@ -1,4 +1,5 @@
 // services/scoring.js
+// Rule-based score: seniority, ICP match, completeness. Max 50.
 
 function ruleScore({ lead, offer }) {
     let score = 0;
