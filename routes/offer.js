@@ -10,7 +10,7 @@ router.post('/', (req, res) => {
     return res.status(400).json({ error: "Missing required fields" });
   }
   currentOffer = { name, value_props, ideal_use_cases };
-  res.status(201).json({ message: "Offer saved", offer: currentOffer });
+  res.status(200).json({ message: "Offer saved", offer: currentOffer });
 });
 
 router.get('/', (req, res) => {

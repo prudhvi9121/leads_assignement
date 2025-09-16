@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const offerRoute = require('./routes/offer');
 const leadsRoute = require('./routes/leads');
+const resultsRoute = require('./routes/results');
 const app = express();
 app.use(bodyParser.json());
 
@@ -14,6 +15,7 @@ app.get('/health', (req, res) => {
 
 app.use('/offer', offerRoute);
 app.use('/leads', leadsRoute);
+app.use('/results', resultsRoute);
 
 
 const PORT = process.env.PORT || 3000;
