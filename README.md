@@ -102,7 +102,7 @@ Alternatively, use the provided `render.yaml` and connect repo.
 
 ## Live URL
 When deployed, update this section with your base URL:
-- Base URL: https://your-app.onrender.com
+- Base URL: https://leads-assignement.onrender.com/
 
 ## Development Notes
 - Results shape is a simplified list for easy CSV export.
